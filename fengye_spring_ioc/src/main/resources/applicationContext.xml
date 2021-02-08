@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-http://www.springframework.org/schema/beans/spring-beans.xsd">
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
     <!--无参构造方法创建bean-->
     <bean id="userDao" class="com.fengye.dao.impl.UserDaoImpl" scope="prototype"></bean>
     <!--静态工厂创建bean-->
@@ -10,6 +13,23 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     <!--工厂实例方法创建bean-->
     <bean id="dynamicBeanFactory" class="com.fengye.factory.DynamicBeanFactory"></bean>
     <bean id="dynamic" factory-bean="dynamicBeanFactory" factory-method="getBean1"></bean>
+
+    <!-- 配置一个DBCP的Bean destroy-method="close"：每次取用关闭连接池-->
+    <bean id="dateSource" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
+        <!-- 注意：这里我们不是使用的ref引用，而是直接写的value，因此注入的数据是一个变通的值 -->
+        <property name="driverClassName" value="${jdbc.driverClassName}" />
+        <property name="url" value="${jdbc.url}" />
+        <property name="username" value="${jdbc.username}" />
+        <property name="password" value="${jdbc.password}" />
+    </bean>
     <!--分模块开发：引入其它文件中的xml bean配置-->
-    <import resource="applicationContext-xxx.xml"></import>
+    <!--<import resource="applicationContext-xxx.xml"></import>-->
+
+    <!--导入外部的jdbc.properties-->
+    <context:property-placeholder location="classpath:jdbc.properties" />
+    <!-- 进行包的扫描,去看类上面是否有相应的标签配置 -->
+    <context:component-scan base-package="com.fengye" />
+    <!-- 这个不是必须的(spring3.2版本前使用) 配上后兼容性好 -->
+    <context:annotation-config />
 </beans>

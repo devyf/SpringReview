@@ -1,6 +1,7 @@
 package com.fengye.dao;
 
 import com.fengye.dao.impl.UserDaoImpl;
+import com.fengye.service.impl.UserServiceImpl;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -27,5 +28,12 @@ public class SpringTest {
         ClassPathXmlApplicationContext app = new ClassPathXmlApplicationContext("applicationContext.xml");
         UserDaoImpl userDao = (UserDaoImpl) app.getBean("dynamic");
         userDao.save();
+    }
+
+    @Test
+    public void serviceTest(){
+        ClassPathXmlApplicationContext app = new ClassPathXmlApplicationContext("applicationContext.xml");
+        UserServiceImpl service = app.getBean(UserServiceImpl.class);
+        service.save();
     }
 }
