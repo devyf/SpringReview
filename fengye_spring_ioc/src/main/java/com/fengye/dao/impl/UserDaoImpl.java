@@ -1,7 +1,9 @@
 package com.fengye.dao.impl;
 
 import com.fengye.dao.IUserDao;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class UserDaoImpl implements IUserDao {
 //    private String userName;
 //

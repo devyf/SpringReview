@@ -11,11 +11,11 @@ public class UserServiceImpl implements IUserService {
     @Value("${jdbc.driverClassName}")
     private String driver;
 
-//    @Autowired
-//    private IUserDao userDao;
+    @Autowired
+    private IUserDao userDao;
 
     public void save() {
         System.out.println(driver);
-       // userDao.save();
+        userDao.save();
     }
 }
